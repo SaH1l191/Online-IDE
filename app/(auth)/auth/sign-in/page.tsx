@@ -15,7 +15,7 @@ const SignInPage = () => {
             </div>
           </div>
         </div>
-        <div className="relative hidden items-center justify-center lg:flex z-10 bg-[#FFE6C9] w-full h-full">
+        <div className="relative hidden items-center justify-center lg:flex z-10 bg-[#FFE6C9] dark:bg-[#1a1a1a] text-foreground w-full h-full">
           <Image
             width={500} height={500}
             src="/images/skeleton.png"

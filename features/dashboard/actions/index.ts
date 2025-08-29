@@ -15,6 +15,7 @@ export const getAllPlaygroundForUser = async () => {
                 user: true
             }
         })
+        console.log("playgrounds ",playgrounds)
         return playgrounds
     } catch (error) {
         console.log("Error in getAllPlaygroundForUser", error)

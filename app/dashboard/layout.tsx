@@ -22,18 +22,19 @@ const DashbordLayout = async ({ children }: { children: React.ReactNode }) => {
     const formattedPlaygroundData = playgroundData?.map((item) =>({
         id: item.id,
         name: item.title,
-        icon: IconMapping[item.template]
+        icon: IconMapping[item.template],
+        starred:item.StarMark?.[0]?.isMared || false
+        
     }))
 
 
     return (
-        <SidebarProvider>
+        <SidebarProvider> 
             <div className="flex min-h-screen w-full overflow-x-hidden">
                 {/* Pass the formatted data with string icon names */}
                 <DashboardSidebar initialPlaygroundData={formattedPlaygroundData} />
                 <main className="flex-1">{children}</main>
             </div>
-
         </SidebarProvider>
     )
 }

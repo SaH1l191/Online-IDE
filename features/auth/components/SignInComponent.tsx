@@ -16,10 +16,10 @@ const SignInFormClient = () => {
     return (
         <Card className="w-full max-w-md rounded-xl s  !shadow-none  !border-none">
             <CardHeader className="space-y-3 py-6">
-                <CardTitle className="text-3xl font-extrabold text-center text-gray-900">
+                <CardTitle className="text-3xl font-extrabold text-center text-foreground">
                     Welcome Back!
                 </CardTitle>
-                <CardDescription className="text-center text-lg text-gray-600">
+                <CardDescription className="text-center text-lg text-muted-foreground">
                     Choose your preferred sign-in method to continue
                 </CardDescription>
             </CardHeader>
@@ -36,7 +36,7 @@ const SignInFormClient = () => {
                         className="w-full hover:cursor-pointer  h-12 rounded-lg shadow-sm transition-all ease-in-out duration-200 hover:bg-gray-100 focus:outline-none"
                     >
                         <Chrome className="mr-3 h-5 w-5 text-blue-500" />
-                        <span className="text-lg font-medium text-gray-700">Sign in with Google</span>
+                        <span className="text-lg font-medium text-foreground">Sign in with Google</span>
                     </Button>
                 </form>
 
@@ -51,7 +51,7 @@ const SignInFormClient = () => {
                         className="w-full hover:cursor-pointer h-12 rounded-lg shadow-sm transition-all ease-in-out duration-200 hover:bg-gray-100 hover:text-white focus:outline-none"
                     >
                         <Github className="mr-3 h-5 w-5 text-gray-800" />
-                        <span className="text-lg font-medium text-gray-700">Sign in with GitHub</span>
+                        <span className="text-lg font-medium text-foreground">Sign in with GitHub</span>
                     </Button>
                 </form>
             </CardContent>

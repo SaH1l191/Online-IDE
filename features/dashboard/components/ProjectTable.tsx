@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { format } from "date-fns";
 import type { Project } from "../types";
@@ -53,7 +52,7 @@ import {
   Eye,
 } from "lucide-react";
 import { toast } from "sonner";
-import { MarkedToggleButton } from "./toggle-star";
+import { MarkedToggleButton } from "./ToggleStar";
 
 interface ProjectTableProps {
   projects: Project[];
