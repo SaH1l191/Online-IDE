@@ -58,7 +58,7 @@ interface ProjectTableProps {
   projects: Project[];
   onUpdateProject?: (
     id: string,
-    data: { title: string; description: string }
+    data: { title: string; description?: string }
   ) => Promise<void>;
   onDeleteProject?: (id: string) => Promise<void>;
   onDuplicateProject?: (id: string) => Promise<void>;
@@ -89,6 +89,7 @@ export default function ProjectTable({
   const [favoutrie, setFavourite] = useState(false);
 
   const handleEditClick = (project: Project) => {
+    console.log("selected this project ",project )
     setSelectedProject(project);
     setEditData({
       title: project.title,

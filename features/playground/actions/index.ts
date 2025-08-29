@@ -61,8 +61,7 @@ export const getAllPlayground = async () => {
     try {
         const playgrounds = await client.playground.findMany({
             where: {
-                userId: userId,
-
+                userId: userId, 
             },
             include: {
                 StarMark: {
@@ -97,7 +96,7 @@ export const deletePlayGroundById = async (  playGroundId  :string ) => {
         console.log(err)
     }
 }
-export const editPlayGroundById = async (playGroundId: string, data: { title: string, description: string }
+export const editPlayGroundById = async (playGroundId: string, data: { title: string, description?: string }
 ) => {
     const user = await currentUser()
     const userId = user?.id

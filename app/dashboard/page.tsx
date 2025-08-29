@@ -25,12 +25,13 @@ const DashboardMainPage = async () => {
         {playgrounds && playgrounds.length === 0? (
           <EmptyState />
         ) : (
-          <>
-            @ts-ignore
+          <>  
             <ProjectTable
+            //  @ts-ignore
               projects={playgrounds || []}
               onDeleteProject={deletePlayGroundById}
               onUpdateProject={editPlayGroundById}
+              //  @ts-ignore
               onDuplicateProject={duplicatePlaygroundById}
             />
           </>
