@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Account {
   id                String  @id @default(cuid()) @map("_id")
   userId            String  @map("user_id")
@@ -33,7 +32,6 @@ model Account {
   @@unique([provider, providerAccountId])
   @@index([userId])
 }
-
 
 enum UserRole {
   ADMIN
@@ -56,7 +54,6 @@ model User {
   myPlayground     StarMark[]
 }
 
-
 enum Templayes {
   REACT
   NEXTJS
@@ -66,10 +63,11 @@ enum Templayes {
   ANGULAR
 }
 
+//each playground can be star marked by many users  
 model Playground {
   id            String         @id @default(cuid()) @map("_id")
   title         String
-  description   String
+  description   String?
   template      Templayes      @default(REACT)
   templateFiles TemplateFile[]
   StarMark      StarMark[]
@@ -80,6 +78,7 @@ model Playground {
   updatedAt DateTime @updatedAt
 }
 
+//playground can have many template Files 
 model TemplateFile {
   id           String     @id @default(cuid()) @map("_id")
   content      Json
@@ -90,6 +89,7 @@ model TemplateFile {
   updatedAt DateTime @updatedAt
 }
 
+//only 1 user can => starmark 1 playground 1 time  
 model StarMark {
   id           String     @id @default(cuid()) @map("_id")
   userId       String

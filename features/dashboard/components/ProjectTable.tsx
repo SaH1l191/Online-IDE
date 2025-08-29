@@ -77,6 +77,7 @@ export default function ProjectTable({
   onDuplicateProject,
   onMarkasFavorite,
 }: ProjectTableProps) {
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -185,6 +186,7 @@ export default function ProjectTable({
               <TableHead className="w-[50px]">Actions</TableHead>
             </TableRow>
           </TableHeader>
+
           <TableBody>
             {projects.map((project) => (
               <TableRow key={project.id}>
@@ -236,8 +238,9 @@ export default function ProjectTable({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
                       <DropdownMenuItem asChild>
+                        {/* dropdonwMenuItem passes the onClick function directly to its childs  */}
                         <MarkedToggleButton
-                          markedForRevision={project.Starmark[0]?.isMarked}
+                          markedForRevision={project.StarMark[0]?.isMarked}
                           id={project.id}
                         />
                       </DropdownMenuItem>

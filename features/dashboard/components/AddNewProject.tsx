@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button"
+import { createPlayground } from "@/features/playground/actions";
 import TemplateSelectionModal from "@/features/playground/components/TemplateModal";
 import { Plus } from 'lucide-react'
 import Image from "next/image"
@@ -28,7 +29,7 @@ const AddNewButton = () => {
     description?: string;
   }) => {
     setSelectedTemplate(data)
-    // const res = await createPlayground(data);
+    const res = await createPlayground(data);
     toast("Playground created successfully");
     // Here you would typically handle the creation of a new playground
     // with the selected template data
