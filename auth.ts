@@ -70,7 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         async jwt({ token }) {
             if (!token.sub) return token;
-            console.log("JWt", token);
+            // console.log("JWt", token);
             const existingUser = await getUserById(token.sub)
             if (!existingUser) return token;
 
@@ -88,7 +88,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (token.sub && session.user) {
                 session.user.role = token.role
             }
-            console.log("session ", session)
+            // console.log("session ", session)
             return session
         }
     },

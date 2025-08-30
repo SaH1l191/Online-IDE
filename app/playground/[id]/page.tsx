@@ -1,11 +1,21 @@
+"use client"
+import { usePlayground } from '@/features/playground/hooks/usePlayground';
+import { useParams } from 'next/navigation'
 import React from 'react'
 
-type Props = {}
+const Playground = () => {
 
-const page = (props: Props) => {
+  const { id } = useParams<{ id: string }>();
+
+  const { playgroundData, templateData, isLoading, error, saveTemplateData } = usePlayground(id)
+  console.log("templateData", templateData)
+  console.log("playgrond data", playgroundData)
+
   return (
-    <div>page</div>
+    <div>
+      params :{id}
+    </div>
   )
 }
 
-export default page
+export default Playground

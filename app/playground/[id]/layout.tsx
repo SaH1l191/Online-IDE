@@ -1,9 +1,9 @@
+import { SidebarProvider } from '@/components/ui/sidebar'
 import React from 'react'
 
-type Props = {}
-
-const layout = (props: Props) => {
+const PlaygroundLayout = ({children} : { children : React.ReactNode}) => {
   return (
-    <div>layout</div>
+    <SidebarProvider>{children}</SidebarProvider>
   )
 }
+export default PlaygroundLayout;

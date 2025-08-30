@@ -4,6 +4,7 @@ import { currentUser } from "@/features/auth/actions"
 import { client } from "@/lib/db"
 import { Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
+import { TemplateFolder } from "../lib"
 
 export const toggleStarMarked = async (playGroundId: string, isChecked: boolean) => {
     const user = await currentUser()
@@ -23,7 +24,7 @@ export const toggleStarMarked = async (playGroundId: string, isChecked: boolean)
         return { success: true, error: null, isMarked: isChecked }
     }
     catch (error) {
-         return { success: false, error: (error as Error).message, isMarked: !isChecked }
+        return { success: false, error: (error as Error).message, isMarked: !isChecked }
     }
 }
 
@@ -61,7 +62,7 @@ export const getAllPlayground = async () => {
     try {
         const playgrounds = await client.playground.findMany({
             where: {
-                userId: userId, 
+                userId: userId,
             },
             include: {
                 StarMark: {
@@ -81,7 +82,7 @@ export const getAllPlayground = async () => {
     }
 }
 
-export const deletePlayGroundById = async (  playGroundId  :string ) => {
+export const deletePlayGroundById = async (playGroundId: string) => {
     const user = await currentUser()
     const userId = user?.id
     if (!userId) { throw new Error("user not found") }
@@ -142,6 +143,52 @@ export const duplicatePlaygroundById = async (playGroundId: string) => {
         revalidatePath("/dashboard")
         return duplicatedPlayground
 
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const getPlaygroundById = async (playGroundId: string) => {
+    try {
+        const PlayGroundTemplateContent = await client.playground.findUnique({
+            where: {
+                id: playGroundId
+            },
+            select: {
+                id: true,
+                title: true,
+                templateFiles: {
+                    select: {
+                        content: true
+                    }
+                }
+            }
+        })
+        return PlayGroundTemplateContent
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const SaveUpdatedCode = async (playgroundId: string, data: TemplateFolder) => {
+    const user = await currentUser()
+    if (!user) return null
+    try {
+        //inserts new or updates existing  data
+        const updatedPlayground = await client.templateFile.upsert({
+            where: {
+                playgroundId: playgroundId
+            },
+            update: {
+                content: JSON.stringify(data)
+            },
+            create: {
+                playgroundId: playgroundId,
+                content: JSON.stringify(data)
+            }
+        })
+        return updatedPlayground
     } catch (err) {
         console.log(err)
     }

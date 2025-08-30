@@ -10,7 +10,7 @@ export default auth((req) => {
     console.log("middleware file ")
     // only handling the page flow not the API flow
     const { nextUrl } = req
-    console.log("logging middleware req ", req)
+    // console.log("logging middleware req ", req)
     const isLoggedIn = !!req.auth
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
