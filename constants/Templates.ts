@@ -10,7 +10,7 @@ interface TemplateOption {
     category: "frontend" | "backend" | "fullstack";
 }
 
-export const  templates: TemplateOption[] = [
+export const templates: TemplateOption[] = [
     {
         id: "react",
         name: "React",

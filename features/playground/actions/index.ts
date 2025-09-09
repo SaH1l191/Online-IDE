@@ -47,6 +47,7 @@ export const createPlayground = async (data: {
                 userId: userId
             }
         })
+        revalidatePath("/dashboard")
         return playground
     } catch (err) {
         console.log(err)

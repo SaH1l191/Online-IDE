@@ -26,6 +26,7 @@ const DashboardMainPage = async () => {
           <EmptyState />
         ) : (
           <>  
+          
             <ProjectTable
             //  @ts-ignore
               projects={playgrounds || []}
@@ -36,6 +37,7 @@ const DashboardMainPage = async () => {
             />
           </>
         )}
+        {/* props passed to table component as it is client component and server actions cannot be passed over there */}
       </div>
     </div>
   );

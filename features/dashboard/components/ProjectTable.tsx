@@ -99,8 +99,7 @@ export default function ProjectTable({
   };
 
   const handleDeleteClick = async (project: Project) => {
-    setSelectedProject(project);
-
+    setSelectedProject(project); 
     setDeleteDialogOpen(true);
   };
 

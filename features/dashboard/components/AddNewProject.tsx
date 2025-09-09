@@ -7,7 +7,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 import { toast } from "sonner";
- 
+
 const AddNewButton = () => {
 
 
@@ -20,7 +20,7 @@ const AddNewButton = () => {
   } | null>(null)
 
 
-  
+
 
 
   const handleSubmit = async (data: {
@@ -64,7 +64,7 @@ const AddNewButton = () => {
           </div>
         </div>
 
-      {/* right side svg */}
+        {/* right side svg */}
         <div className="relative overflow-hidden">
           <Image
             src={"/add-new.svg"}
@@ -77,8 +77,8 @@ const AddNewButton = () => {
       </div>
 
       <TemplateSelectionModal
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
         onSubmit={handleSubmit}
       />
     </>

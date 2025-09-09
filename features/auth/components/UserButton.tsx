@@ -16,7 +16,7 @@ import { useCurrentUser } from "../hooks/useCurrentUser";
 const UserButton = () => {
 
   const user = useCurrentUser()
-//client side component 
+  //client side component 
 
 
   return (
@@ -32,20 +32,20 @@ const UserButton = () => {
         </div>
       </DropdownMenuTrigger>
 
-    <DropdownMenuContent className="mr-4">
-      <DropdownMenuItem>
-        <span>
-          {user?.email}
-        </span>
-      </DropdownMenuItem>
-      <DropdownMenuSeparator/>
+      <DropdownMenuContent className="mr-4">
+        <DropdownMenuItem>
+          <span>
+            {user?.email}
+          </span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <LogoutButton>
-            <DropdownMenuItem>
-                <LogOut className="h-4 w-4 mr-2"/>
-                LogOut
-            </DropdownMenuItem>
+          <DropdownMenuItem>
+            <LogOut className="h-4 w-4 mr-2" />
+            LogOut
+          </DropdownMenuItem>
         </LogoutButton>
-    </DropdownMenuContent>
+      </DropdownMenuContent>
 
     </DropdownMenu>
   );

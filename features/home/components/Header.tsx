@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ThemeToggle } from "@/components/ui/toggle-theme"; 
+import { ThemeToggle } from "@/components/ui/toggle-theme";
 import UserButton from "@/features/auth/components/UserButton";
 export function Header() {
   return (
@@ -47,7 +47,7 @@ export function Header() {
                   {/* Desktop Navigation Links */}
                   <div className="hidden sm:flex items-center gap-4">
                     <Link
-                      href="/docs/components/background-paths"
+                      href="/"
                       className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
                     >
                       Docs
@@ -59,7 +59,7 @@ export function Header() {
                                             Pricing
                                         </Link> */}
                     <Link
-                      href="https://codesnippetui.pro/templates?utm_source=codesnippetui.com&utm_medium=header"
+                      href=""
                       target="_blank"
                       className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors flex items-center gap-2"
                     >
@@ -76,7 +76,7 @@ export function Header() {
                   <span className="text-zinc-300 dark:text-zinc-700">|</span>
                   {/* <HeaderPro /> */}
                   <ThemeToggle />
-                  <UserButton/>
+                  <UserButton />
                 </div>
 
                 {/* Mobile Navigation remains unchanged */}
@@ -94,7 +94,7 @@ export function Header() {
                     API
                   </Link>
                   <ThemeToggle />
-                  <UserButton/>
+                  <UserButton />
                 </div>
               </div>
             </div>
