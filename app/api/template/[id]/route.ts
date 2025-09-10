@@ -1,7 +1,7 @@
 import { client } from "@/lib/db";
-import { NextRequest } from "next/server"; 
+import { NextRequest } from "next/server";
 import path from "path";
-import { readTemplateStructureFromJson, saveTemplateStructureToJson } from "@/features/playground/lib";
+import { readTemplateStructureFromJson, saveTemplateStructureToJson } from "@/features/dashboard/lib";
 import fs from "fs/promises";
 
 export const templatePaths = {

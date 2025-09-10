@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { TemplateFolder } from '../lib'
+import { TemplateFolder } from '../../dashboard/lib'
 import { getPlaygroundById, SaveUpdatedCode } from '../actions'
 
 
@@ -35,7 +35,7 @@ export const usePlayground = (id: string): UsePlayground => {
             setIsLoading(true);
             setError(null);
             const data = await getPlaygroundById(id);
-            console.log("data from loadPlayground in hook",data)
+            console.log("data from loadPlayground in hook", data)
             // @ts-ignore
             setPlaygroundData(data)
 

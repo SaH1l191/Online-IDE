@@ -4,7 +4,7 @@ import { currentUser } from "@/features/auth/actions"
 import { client } from "@/lib/db"
 import { Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
-import { TemplateFolder } from "../lib"
+import { TemplateFolder } from "../../dashboard/lib"
 
 export const toggleStarMarked = async (playGroundId: string, isChecked: boolean) => {
     const user = await currentUser()
