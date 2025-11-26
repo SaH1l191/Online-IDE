@@ -63,11 +63,15 @@ export const usePlayground = (id: string): UsePlayground => {
 
             //additional checks to ensure valid response 
             if (templateRes.templateJson && Array.isArray(templateRes.templateJson)) {
+                console.log("hit if condition")
                 setTemplateData({
                     folderName: "Root",
                     items: templateRes.templateJson,
                 });
             } else {
+                //eg => if some framewrok contains a root folder inside of it then it 
+                // expands the inner root folder nothing else 
+                console.log("hit else condition")
                 setTemplateData(templateRes.templateJson || {
                     folderName: "Root",
                     items: [],

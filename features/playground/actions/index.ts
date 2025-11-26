@@ -77,6 +77,7 @@ export const getAllPlayground = async () => {
                 user: true
             }
         })
+        console.log("getallplayground from primsa", playgrounds)
         return playgrounds
     } catch (err) {
         console.log(err)
@@ -164,7 +165,7 @@ export const getPlaygroundById = async (playGroundId: string) => {
                     }
                 }
             }
-        })
+        }) 
         return PlayGroundTemplateContent
 
     } catch (err) {

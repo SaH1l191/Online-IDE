@@ -30,7 +30,6 @@ export default function HomeLayout({
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
 
             <main className="z-20 relative w-full pt-0 md:pt-0  ">
-
                 {children}
             </main>
             <Footer />

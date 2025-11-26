@@ -49,6 +49,7 @@ const TemplateSelectionModal = ({
   onClose,
   onSubmit,
 }: TemplateSelectionModalProps) => {
+
   const generatePlaygroundName = () =>
     uniqueNamesGenerator({
       dictionaries: [adjectives, colors, animals],

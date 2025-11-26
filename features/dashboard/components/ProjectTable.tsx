@@ -89,7 +89,7 @@ export default function ProjectTable({
   const [favoutrie, setFavourite] = useState(false);
 
   const handleEditClick = (project: Project) => {
-    console.log("selected this project ",project )
+    console.log("selected this project ", project)
     setSelectedProject(project);
     setEditData({
       title: project.title,
@@ -99,7 +99,7 @@ export default function ProjectTable({
   };
 
   const handleDeleteClick = async (project: Project) => {
-    setSelectedProject(project); 
+    setSelectedProject(project);
     setDeleteDialogOpen(true);
   };
 
@@ -228,6 +228,8 @@ export default function ProjectTable({
                     <span className="text-sm">{project.user.name}</span>
                   </div>
                 </TableCell>
+
+                
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>

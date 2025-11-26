@@ -18,13 +18,13 @@ export function ThemeToggle() {
     if (!mounted) {
         return null;
     }
-//context behind the mounted state variable 
+    //context behind the mounted state variable 
 
 
-//When using Next.js, parts of your app might render on the server first 
-// (before the browser runs any JavaScript). This can cause 
-// problems if you're using something like localStorage or reading the user's 
-// theme — because that only works in the browser, not on the server.
+    //When using Next.js, parts of your app might render on the server first 
+    // (before the browser runs any JavaScript). This can cause 
+    // problems if you're using something like localStorage or reading the user's 
+    // theme — because that only works in the browser, not on the server.
     return (
         <div
             className="cursor-pointer"
@@ -33,8 +33,8 @@ export function ThemeToggle() {
             }}
         >
             {
-                theme === "light" ? (<Moon className="h-5 w-5 text-black" />) : 
-                (<Sun className="h-5 w-5 text-white" color="white" />)
+                theme === "light" ? (<Moon className="h-5 w-5 text-black" />) :
+                    (<Sun className="h-5 w-5 text-white" color="white" />)
             }
         </div>
     )

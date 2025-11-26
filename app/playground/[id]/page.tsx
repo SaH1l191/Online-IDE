@@ -230,15 +230,15 @@ const Playground = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    {/* <DropdownMenuItem
+                    <DropdownMenuItem
                       onClick={() => setIsPreviewVisible(!isPreviewVisible)}
                     >
                       {isPreviewVisible ? "Hide" : "Show"} Preview
-                    </DropdownMenuItem> */}
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    {/* <DropdownMenuItem onClick={closeAllFiles}>
+                    <DropdownMenuItem onClick={closeAllFiles}>
                       Close All Files
-                    </DropdownMenuItem> */}
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>

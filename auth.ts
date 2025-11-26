@@ -1,5 +1,4 @@
 import NextAuth from "next-auth"
-import GitHub from "next-auth/providers/github"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { client } from "./lib/db"
 import authConfig from "./auth.config"
@@ -40,7 +39,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             } else {
                 const existingAccount = await client.account.findUnique({
                     where: {
-                        provider_providerAccountId: {
+                        provider_providerAccountId: { 
                             provider: account.provider,
                             providerAccountId: account.providerAccountId
                         }
@@ -70,7 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         async jwt({ token }) {
             if (!token.sub) return token;
-            // console.log("JWt", token);
+            console.log("JWt token sub", token.sub);
             const existingUser = await getUserById(token.sub)
             if (!existingUser) return token;
 
@@ -94,7 +93,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     secret: process.env.AUTH_SECRET,
     adapter: PrismaAdapter(client),
-    session:{strategy :"jwt"},
+    session: { strategy: "jwt" },
     ...authConfig
 })
 

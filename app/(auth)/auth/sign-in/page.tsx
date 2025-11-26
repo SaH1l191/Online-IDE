@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import SignInFormClient from '../../../../features/auth/components/SignInComponent'
- 
+
 
 const SignInPage = () => {
   return (

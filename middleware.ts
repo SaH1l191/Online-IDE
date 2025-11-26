@@ -1,4 +1,4 @@
- 
+
 import { apiAuthPrefix, DEFAULT_LOGIN_REDIRECT, publicRoutes, authRoutes, protectedRoutes } from './routes'
 import authConfig from "./auth.config"
 import NextAuth from "next-auth"
