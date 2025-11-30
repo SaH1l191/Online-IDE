@@ -69,6 +69,9 @@ export async function longPoll<T>(
  * @param rootFolder The root template folder containing all files
  * @returns A unique file identifier including full path
  */
+
+
+
 export const generateFileId = (file: TemplateFile, rootFolder: TemplateFolder): string => {
   // Find the file's path in the folder structure
   const path = findFilePath(file, rootFolder)?.replace(/^\/+/, '') || '';

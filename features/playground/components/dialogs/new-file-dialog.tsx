@@ -35,12 +35,15 @@ function NewFileDialog({ isOpen, onClose, onCreateFile }: NewFileDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
+
+
         <DialogHeader>
           <DialogTitle>Create New File</DialogTitle>
           <DialogDescription>
             Enter a name for the new file and select its extension.
           </DialogDescription>
         </DialogHeader>
+        
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-3 items-center gap-4">
