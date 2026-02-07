@@ -3,13 +3,8 @@ import React from 'react'
 
 const PlaygroundLayout = ({children} : { children : React.ReactNode}) => {
   return (
-    <SidebarProvider>
- 
- 
-    {children}
-  
-  
-      
+    <SidebarProvider> 
+    {children}  
    </SidebarProvider>
   )
 }

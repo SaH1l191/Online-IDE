@@ -94,6 +94,9 @@ export function TemplateFileTree({
     onRenameFile,
     onRenameFolder,
 }: TemplateFileTreeProps) {
+
+    console.log("data inside templatefile tree",data )
+
     const isRootFolder = data && typeof data === "object" && "folderName" in data
     const [isNewFileDialogOpen, setIsNewFileDialogOpen] = React.useState(false)
     const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = React.useState(false)

@@ -38,7 +38,7 @@ export const usePlayground = (id: string): UsePlayground => {
             console.log("data from loadPlayground in hook", data)
             // @ts-ignore
             setPlaygroundData(data)
-
+            console.log("playgroundData", playgroundData)
             // 2 conditions here => 
             //1.playground data found in our db 
             // 2. new playground data ned to be loaded from templates 
@@ -70,13 +70,14 @@ export const usePlayground = (id: string): UsePlayground => {
                 });
             } else {
                 //eg => if some framewrok contains a root folder inside of it then it 
-                // expands the inner root folder nothing else 
+                // expands the inner root folder nothing else eg : react-ts is root and inside it contains array items 
                 console.log("hit else condition")
                 setTemplateData(templateRes.templateJson || {
                     folderName: "Root",
                     items: [],
                 });
             }
+            console.log("templateData", templateData)
             toast.success("Template loaded successfully");
         } catch (error) {
             console.error("Error loading playground:", error);

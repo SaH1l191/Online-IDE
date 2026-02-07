@@ -39,9 +39,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     try {
         const inputPath = path.join(process.cwd(), templatePath)
         const outputFile = path.join(process.cwd(), `output/${templateKey}.json`)
-        console.log("Input Path:", inputPath);
-        console.log("Output Path:", outputFile);
-
+        // console.log("Input Path:", inputPath);
+        // console.log("Output Path:", outputFile);
+        //Input Path: D:\Code Files\Projects\vibe-coding\tempate-starter-pack\react-ts
+        // Output Path: D:\Code Files\Projects\vibe-coding\output\REACT.json
         await saveTemplateStructureToJson(inputPath, outputFile)
         const res = await readTemplateStructureFromJson(outputFile)
 
