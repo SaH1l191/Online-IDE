@@ -76,14 +76,14 @@ const WebContainerPreview: React.FC<WebContainerPreviewProps> = ({
           if (packageJsonExists) {
             // Files are already mounted, just reconnect to existing server
             if (terminalRef.current?.writeToTerminal) {
-              terminalRef.current.writeToTerminal("🔄 Reconnecting to existing WebContainer session...\r\n");
+              terminalRef.current.writeToTerminal(" Reconnecting to existing WebContainer session...\r\n");
             }
             
             // Check if server is already running
             instance.on("server-ready", (port: number, url: string) => {
               console.log(`Reconnected to server on port ${port} at ${url}`);
               if (terminalRef.current?.writeToTerminal) {
-                terminalRef.current.writeToTerminal(`🌐 Reconnected to server at ${url}\r\n`);
+                terminalRef.current.writeToTerminal(` Reconnected to server at ${url}\r\n`);
               }
               setPreviewUrl(url);
               setLoadingState((prev) => ({
@@ -140,35 +140,11 @@ const WebContainerPreview: React.FC<WebContainerPreviewProps> = ({
         }));
         setCurrentStep(3);
 
-        // Step 3: Install dependencies
+        // Step 3: Install dependencies (skip for JS-only templates)
         if (terminalRef.current?.writeToTerminal) {
-          terminalRef.current.writeToTerminal("📦 Installing dependencies...\r\n");
+          terminalRef.current.writeToTerminal("📦 Skipping npm install (using pre-built files)...\r\n");
         }
         
-        const installProcess = await instance.spawn("npm", ["install"]);
-
-        // Stream install output to terminal
-        installProcess.output.pipeTo(
-          new WritableStream({
-            write(data) {
-              // Write directly to terminal
-              if (terminalRef.current?.writeToTerminal) {
-                terminalRef.current.writeToTerminal(data);
-              }
-            },
-          })
-        );
-
-        const installExitCode = await installProcess.exit;
-
-        if (installExitCode !== 0) {
-          throw new Error(`Failed to install dependencies. Exit code: ${installExitCode}`);
-        }
-
-        if (terminalRef.current?.writeToTerminal) {
-          terminalRef.current.writeToTerminal("✅ Dependencies installed successfully\r\n");
-        }
-
         setLoadingState((prev) => ({
           ...prev,
           installing: false,

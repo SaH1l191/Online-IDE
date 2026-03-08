@@ -119,6 +119,7 @@ export function TemplateFileTree({
             onAddFile(newFile, "")
         }
         setIsNewFileDialogOpen(false)
+        console.log("handleCreateFile has created file")
     }
 
     const handleCreateFolder = (folderName: string) => {

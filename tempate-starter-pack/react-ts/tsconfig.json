@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["DOM", "ES2022"],
+    "target": "ESNext",
     "moduleResolution": "node",
-    "target": "ES2022"
+    "lib": ["DOM", "ESNext"],
+    "module": "ESNext",
+    "outDir": "public",
+    "rootDir": "src"
   }
 }
