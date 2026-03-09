@@ -29,7 +29,7 @@ interface FileExplorerState {
   deleteItem: (path: string) => Promise<void>
   renameItem: (oldPath: string, newPath: string) => Promise<void>
 }
-
+ 
 export const useFileExplorer = create<FileExplorerState>()(
   immer((set, get) => ({
     playgroundId: "",
@@ -122,7 +122,7 @@ export const useFileExplorer = create<FileExplorerState>()(
         FileSystemService.showError("Failed to create file")
       }
     },
-
+    
     createFolder: async (path, folder, instance) => {
       const { templateData, playgroundId } = get()
       if (!templateData) return
@@ -166,6 +166,8 @@ export const useFileExplorer = create<FileExplorerState>()(
       }
     },
 
+      //issue: fix the ts error 
+      //issue : remove unused dependencies & files 
     renameItem: async (oldPath, newPath) => {
       const { templateData, openFiles, activeFileId, playgroundId } = get()
       if (!templateData) return

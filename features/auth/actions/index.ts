@@ -1,8 +1,8 @@
 "use server"
 
 import { auth } from "@/auth"
-import { client } from '@/lib/db'
-
+// import { client } from '@/lib/db'
+import { prisma as client } from '@/lib/db';
 export const getUserById = async (id: string) => {
     try {
         const user = await client.user.findFirst({

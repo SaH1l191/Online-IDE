@@ -50,19 +50,17 @@ import {
   Copy,
   Download,
   Eye,
+  Heart,
 } from "lucide-react";
 import { toast } from "sonner";
-import { MarkedToggleButton } from "./ToggleStar";
+
 
 interface ProjectTableProps {
-  projects: Project[];
-  onUpdateProject?: (
-    id: string,
-    data: { title: string; description?: string }
-  ) => Promise<void>;
-  onDeleteProject?: (id: string) => Promise<void>;
-  onDuplicateProject?: (id: string) => Promise<void>;
-  onMarkasFavorite?: (id: string) => Promise<void>;
+  projects: Project[]; 
+  onUpdateProject?: (id: string, data: { title: string; description?: string }) => Promise<unknown>;
+  onDeleteProject?: (id: string) => Promise<unknown>;
+  onDuplicateProject?: (id: string) => Promise<unknown>;
+  onMarkasFavorite?: (id: string, isMarked: boolean) => Promise<unknown>;
 }
 
 interface EditProjectData {
@@ -71,7 +69,7 @@ interface EditProjectData {
 }
 
 export default function ProjectTable({
-  projects,
+  projects, 
   onUpdateProject,
   onDeleteProject,
   onDuplicateProject,
@@ -86,14 +84,17 @@ export default function ProjectTable({
     description: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [favoutrie, setFavourite] = useState(false);
-
+  const [favoriteState, setFavoriteState] = useState<Record<string, boolean>>(
+    Object.fromEntries(
+      projects.map((p) => [p.id, p.StarMark.length > 0])
+    )
+  );
   const handleEditClick = (project: Project) => {
     console.log("selected this project ", project)
     setSelectedProject(project);
     setEditData({
       title: project.title,
-      description: project.description || "",
+      description: project.description ?? "",
     });
     setEditDialogOpen(true);
   };
@@ -102,6 +103,7 @@ export default function ProjectTable({
     setSelectedProject(project);
     setDeleteDialogOpen(true);
   };
+  console.log("Favorite state ", favoriteState)
 
   const handleUpdateProject = async () => {
     if (!selectedProject || !onUpdateProject) return;
@@ -125,8 +127,9 @@ export default function ProjectTable({
 
     setIsLoading(true);
     try {
-      await onMarkasFavorite(project.id);
-      toast.success("Project marked as favorite successfully");
+      await onMarkasFavorite(project.id, !favoriteState[project.id]);
+      setFavoriteState(prev => ({ ...prev, [project.id]: !prev[project.id] }));
+      toast.success(`Project ${!favoriteState[project.id] ? "marked as favorite" : "removed from favorites"}`);
     } catch (error) {
       toast.error("Failed to mark project as favorite");
       console.error("Error marking project as favorite:", error);
@@ -175,7 +178,7 @@ export default function ProjectTable({
 
   return (
     <>
-      <div className="border rounded-lg overflow-hidden">
+      <div className="border rounded-lg overflow-hidden  ">
         <Table>
           <TableHeader>
             <TableRow>
@@ -219,17 +222,17 @@ export default function ProjectTable({
                     <div className="w-8 h-8 rounded-full overflow-hidden">
                       <Image
                         src={project.user.image || "/placeholder.svg"}
-                        alt={project.user.name}
+                        alt={project.user.name || "User Avatar"}
                         width={32}
                         height={32}
                         className="object-cover"
                       />
                     </div>
-                    <span className="text-sm">{project.user.name}</span>
+                    <span className="text-sm">{project.user.name || "User"}</span>
                   </div>
                 </TableCell>
 
-                
+
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -240,11 +243,21 @@ export default function ProjectTable({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
                       <DropdownMenuItem asChild>
-                        {/* dropdonwMenuItem passes the onClick function directly to its childs  */}
-                        <MarkedToggleButton
-                          markedForRevision={project.StarMark[0]?.isMarked}
-                          id={project.id}
-                        />
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="flex items-center gap-2 w-full justify-start px-2 py-1 "
+                          onClick={() => handleMarkasFavorite(project)}
+                        >
+                          <Heart
+                            className="h-4 w-4 mr-2"
+                            fill={favoriteState[project.id] ? "red" : "none"}
+                            stroke={favoriteState[project.id] ? "red" : "currentColor"}
+                          />
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                            {favoriteState[project.id] ? "Favorited" : "Favorite"}
+                          </span>
+                        </Button>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <Link

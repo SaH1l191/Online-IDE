@@ -36,15 +36,14 @@ import {
 } from "@/components/ui/sidebar"
 import Image from "next/image"
 
-// Define the interface for a single playground item, icon is now a string
+
 interface PlaygroundData {
   id: string
   name: string
-  icon: string // Changed to string
+  icon: string 
   starred: boolean
 }
 
-// Map icon names (strings) to their corresponding LucideIcon components
 const lucideIconMap: Record<string, LucideIcon> = {
   Zap: Zap,
   Lightbulb: Lightbulb,
@@ -52,8 +51,7 @@ const lucideIconMap: Record<string, LucideIcon> = {
   Compass: Compass,
   FlameIcon: FlameIcon,
   Terminal: Terminal,
-  Code2: Code2, // Include the default icon
-  // Add any other icons you might use dynamically
+  Code2: Code2,
 }
 
 export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundData: PlaygroundData[] }) {

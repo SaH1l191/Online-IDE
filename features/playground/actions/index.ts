@@ -1,8 +1,7 @@
 "use server"
 
 import { currentUser } from "@/features/auth/actions"
-import { client } from "@/lib/db"
-import { Prisma } from "@prisma/client"
+import { prisma as client } from "@/lib/db"
 import { revalidatePath } from "next/cache"
 import { TemplateFolder } from "../../dashboard/lib"
 
@@ -12,13 +11,15 @@ export const toggleStarMarked = async (playGroundId: string, isChecked: boolean)
     if (!userId) { throw new Error("user not found") }
     try {
         if (isChecked) {
-            await client.starMark.create({
-                data: {
-                    playgroundId: playGroundId,
-                    isMarked: isChecked,
-                    userId: userId
-                }
-            })
+            await client.starMark.upsert({
+                where: { userId_playgroundId: { userId, playgroundId: playGroundId } },
+                create: { playgroundId: playGroundId, isMarked: true, userId },
+                update: { isMarked: true },
+            });
+        } else {
+            await client.starMark.deleteMany({
+                where: { userId, playgroundId: playGroundId },
+            });
         }
         revalidatePath("/dashboard")
         return { success: true, error: null, isMarked: isChecked }
@@ -47,7 +48,9 @@ export const createPlayground = async (data: {
                 userId: userId
             }
         })
+        //issue : dashbaordsidebar is client component , use useEffect there : pending 
         revalidatePath("/dashboard")
+
         return playground
     } catch (err) {
         console.log(err)
@@ -62,19 +65,16 @@ export const getAllPlayground = async () => {
     if (!userId) { throw new Error("user not found") }
     try {
         const playgrounds = await client.playground.findMany({
-            where: {
-                userId: userId,
-            },
+            where: { userId },
             include: {
+                user: true,
                 StarMark: {
-                    where: {
-                        userId: userId
-                    },
+                    where: { userId },
                     select: {
-                        isMarked: true
+                        userId: true,
+                        isMarked: true,
                     }
                 },
-                user: true
             }
         })
         console.log("getallplayground from primsa", playgrounds)
@@ -165,7 +165,7 @@ export const getPlaygroundById = async (playGroundId: string) => {
                     }
                 }
             }
-        }) 
+        })
         return PlayGroundTemplateContent
 
     } catch (err) {

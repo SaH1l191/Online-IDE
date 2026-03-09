@@ -1,11 +1,18 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
+    "jsxImportSource": "react",
     "target": "ESNext",
-    "moduleResolution": "node",
-    "lib": ["DOM", "ESNext"],
     "module": "ESNext",
-    "outDir": "public",
-    "rootDir": "src"
-  }
+    "moduleResolution": "bundler",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "strict": true,
+    "noEmit": true
+  },
+  "include": [
+    "src"
+  ]
 }

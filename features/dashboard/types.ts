@@ -1,22 +1,22 @@
 export interface User {
     id: string
-    name: string
+   name: string | null
     email: string
-    image: string
+    image: string | null
     role: string
     createdAt: Date
     updatedAt: Date
   }
   
-  export interface Project {
-    id: string
-    title: string
-    description: string
-    template: string
-    createdAt: Date
-    updatedAt: Date
-    userId: string
-    user: User
-    StarMark: { isMarked: boolean }[]
-  }
+ export interface Project {
+  id: string
+  title: string
+  description: string | null
+  template: string
+  createdAt: Date
+  updatedAt: Date
+  userId: string
+  user: User
+  StarMark: { userId: string; isMarked: boolean }[]   
+}
   

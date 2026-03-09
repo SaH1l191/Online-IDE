@@ -1,9 +1,7 @@
-import React from "https://esm.sh/react@18?bundle";
-
 export function App({ name }: { name: string }) {
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", padding: "1rem", color: "#000", background: "#fff" }}>
-      <h1 style={{ fontWeight: 800, fontSize: "1.5rem" }}>Hello {name}!</h1>
+    <div>
+      <h1>Hello {name}!</h1>
       <p>Start editing to see some magic happen :)</p>
     </div>
   );

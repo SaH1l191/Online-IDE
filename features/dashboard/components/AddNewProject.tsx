@@ -59,8 +59,8 @@ const AddNewButton = () => {
           </Button>
           {/* add new text  */}
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold text-[#e93f3f]">Add New</h1>
-            <p className="text-sm text-muted-foreground max-w-[220px]">Create a new playground</p>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">Add New</h1>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-[220px]">Create a new playground</p>
           </div>
         </div>
 

@@ -1,33 +1,128 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight } from "lucide-react";
-import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { TypeAnimation } from "react-type-animation";
+
 export default function Home() {
-
   return (
-    <div className=" z-20 flex flex-col items-center justify-start min-h-screen py-2 mt-10">
+    <div className="relative z-20 w-full overflow-hidden">
+      <div className="absolute top-[-200px] left-[-200px] w-[500px] h-[500px] bg-pink-500 rounded-full blur-[120px] opacity-30" />
+      <div className="absolute bottom-[-200px] right-[-200px] w-[500px] h-[500px] bg-purple-500 rounded-full blur-[120px] opacity-30" />
+      <section className="max-w-7xl mx-auto px-6 pt-32 pb-24 grid lg:grid-cols-2 gap-16 items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="space-y-8  pt-1 "
+        >
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+            Build Code with
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500">
+              Intelligence
+            </span>
+          </h1>
+          <div className="text-lg text-zinc-600 dark:text-zinc-400 h-[60px]">
+            <TypeAnimation
+              sequence={[
+                "AI powered code completion",
+                2000,
+                "Debug smarter not harder",
+                2000,
+                "Optimize code instantly",
+                2000,
+              ]}
+              repeat={Infinity}
+            />
+          </div>
+          <div className="flex gap-4">
+            <Link href="/dashboard">
+              <Button size="lg">
+                Start Coding
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </Link>
+            <Button variant="outline" size="lg">
+              Live Demo
+            </Button>
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="relative"
+        >
 
-      <div className="flex flex-col justify-center items-center my-5">
-        <Image src={"/hero.svg"} alt="Hero-Section" height={500} width={500} />
+          <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-purple-500 blur-xl opacity-30" />
 
-        <h1 className=" z-20 text-6xl mt-5 font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-r from-rose-500 via-red-500 to-pink-500 dark:from-rose-400 dark:via-red-400 dark:to-pink-400 tracking-tight leading-[1.3] ">
-          Vibe Code With with Intelligence
-        </h1>
-      </div>
+          <div className="relative bg-black rounded-xl border border-zinc-800 p-6 shadow-2xl">
 
+            <pre className="text-sm text-green-400 font-mono leading-relaxed">
+              {`function greet(name) {
+  return "Hello " + name;
+}
 
-      <p className="mt-2 text-lg text-center text-gray-600 dark:text-gray-400 px-5 py-10 max-w-2xl">
-        VibeCode Editor is a powerful and intelligent code editor that enhances
-        your coding experience with advanced features and seamless integration.
-        It is designed to help you write, debug, and optimize your code
-        efficiently.
-      </p>
-      <Link href={"/dashboard"}>
-        <Button variant={"brand"} className="mb-4" size={"lg"}>
-          Get Started
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </Button>
-      </Link>
+console.log(greet("Developer"));
+
+AI Suggestion:
+→ convert to template string
+`}
+            </pre>
+
+          </div>
+
+        </motion.div>
+
+      </section>
+
+      {/* FEATURES BENTO GRID */}
+      <section className="max-w-7xl mx-auto px-6 pt-24 pb-12   gap-12 items-center">
+
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-5xl md:text-6xl font-extrabold text-center mb-12 
+                 text-opacity-40
+  bg-clip-text  
+  "
+        >
+          Built for Modern Developers
+        </motion.h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+
+          <FeatureCard
+            title="AI Code Generation"
+            desc="Generate functions, tests and documentation instantly."
+          />
+
+          <FeatureCard
+            title="Smart Debugging"
+            desc="AI explains errors and fixes them automatically."
+          />
+          <FeatureCard
+            title="Developer Focused"
+            desc="Built by developers for developers."
+          />
+
+        </div>
+      </section>
     </div>
+  );
+}
+
+function FeatureCard({ title, desc }: { title: string; desc: string }) {
+  return (
+    <motion.div
+      whileHover={{ y: -6 }}
+      className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:shadow-xl transition"
+    >
+      <h4 className="text-xl font-semibold mb-2">{title}</h4>
+      <p className="text-zinc-500 text-sm">{desc}</p>
+    </motion.div>
   );
 }

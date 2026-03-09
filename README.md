@@ -1,44 +1,38 @@
-# ⚡️ Online Code Editor
+# ⚡️ IntelliCode – Browser-Based AI Code Editor
 
-A blazing-fast, AI-integrated web IDE built entirely in the browser using **Next.js App Router**, **WebContainers**, **Monaco Editor**, and **local LLMs via Ollama**. It offers real-time code execution, an AI-powered chat assistant, and support for multiple tech stacks — all wrapped in a stunning developer-first UI.
-
----
-
-## 🚀 Features
-
-- 🔐 **OAuth Login with NextAuth** – Supports Google & GitHub login  
-- 🎨 **Modern UI** – Built with TailwindCSS & ShadCN UI  
-- 🌗 **Dark/Light Mode** – Seamlessly toggle between themes  
-- 🧱 **Project Templates** – Choose from React, Next.js, Express, Hono, Vue, or Angular  
-- 🗂️ **Custom File Explorer** – Create, rename, delete, and manage files/folders easily  
-- 🖊️ **Enhanced Monaco Editor** – Syntax highlighting, formatting, keybindings, and AI autocomplete  
-- 💡 **AI Suggestions with Ollama** – Local models give you code completion on `Ctrl + Space` or double `Enter`. Accept with `Tab`.  
-- ⚙️ **WebContainers Integration** – Instantly run frontend/backend apps right in the browser  
-- 💻 **Terminal with xterm.js** – Fully interactive embedded terminal experience  
-- 🤖 **AI Chat Assistant** – Share files with the AI and get help, refactors, or explanations  
+IntelliCode is a **high-performance, AI-powered web IDE** that runs entirely in the browser. Leveraging **Next.js App Router**, **WebContainers**, **Monaco Editor**, and **local LLMs via Ollama**, it provides live code execution, an AI assistant, and support for multiple frameworks — all within a sleek, developer-friendly interface.
 
 ---
 
-## 🧱 Tech Stack
+## 🚀 Key Features
 
-| Layer         | Technology                    |
-|---------------|-------------------------------|
-| **Framework** | Next.js 15 (App Router)       |
-| **Styling**   | TailwindCSS, ShadCN UI        |
-| **Language**  | TypeScript                    |
-| **Auth**      | NextAuth (Google + GitHub)    |
-| **Editor**    | Monaco Editor                 |
-| **AI**        | Ollama (LLMs via Docker)      |
-| **Runtime**   | WebContainers                 |
-| **Terminal**  | xterm.js                      |
-| **Database**  | MongoDB (via `DATABASE_URL`)  |
+- 🔐 **OAuth Authentication** – Sign in securely using Google or GitHub accounts  
+- 🎨 **Clean, Modern Interface** – Built with TailwindCSS and ShadCN UI  
+- 🌗 **Dark & Light Modes** – Effortlessly switch between themes  
+- 🧱 **Ready-to-Use Project Templates** – React, Next.js, Express, Hono, Vue, Angular  
+- 🗂️ **Custom File Explorer** – Create, rename, delete, and manage files and folders  
+- 🖊️ **Enhanced Monaco Editor** – Syntax highlighting, auto-formatting, keybindings, and AI-assisted autocompletion  
+
+- ⚙️ **WebContainers Runtime** – Run both frontend and backend apps directly in the browser  
+- 💻 **Integrated Terminal** – Fully interactive terminal experience powered by xterm.js  
 
 ---
 
-## 🛠️ Getting Started
+## 🧱 Technology Stack
 
-### 1. Clone the Repo
+| Layer           | Technology                       |
+|-----------------|----------------------------------|
+| **Framework**   | Next.js 15 (App Router)          |
+| **Styling**     | TailwindCSS, ShadCN UI           |
+| **Language**    | TypeScript                       |
+| **Authentication** | NextAuth (Google & GitHub)   |
+| **Code Editor** | Monaco Editor                    |
+| **Runtime**     | WebContainers                    |
+| **Terminal**    | xterm.js                         |
+| **Database**    | MongoDB (`DATABASE_URL`)          |
 
-```bash
-git clone https://github.com/your-username/vibecode-editor.git
-cd vibecode-editor
+---
+
+## 📌 Overview
+
+IntelliCode is designed for developers who want a **fast, AI-augmented coding environment** without leaving the browser. From live code execution to AI-driven code suggestions, it combines **modern web technologies** and **interactive features** to streamline development workflows.

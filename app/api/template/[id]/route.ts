@@ -1,4 +1,4 @@
-import { client } from "@/lib/db";
+import { prisma  as client} from "@/lib/db";
 import { NextRequest } from "next/server";
 import path from "path";
 import { readTemplateStructureFromJson, saveTemplateStructureToJson } from "@/features/dashboard/lib";
@@ -9,7 +9,7 @@ export const templatePaths = {
     NEXTJS: "/tempate-starter-pack/nextjs-new",
     EXPRESS: "/tempate-starter-pack/express-simple",
     VUE: "/tempate-starter-pack/vue",
-    HONO: "/tempate-starter-pack/hono-nodejs-starter",
+    HONO: "/tempate-starter-pack/hono-nodejs-starter", //not added remove later udpate existing templates 
     ANGULAR: "/tempate-starter-pack/angular"
 }
 

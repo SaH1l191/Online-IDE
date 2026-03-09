@@ -3,40 +3,35 @@ import { DashboardSidebar } from '@/features/dashboard/components/DashboardSideB
 import { getAllPlayground } from '@/features/playground/actions'
 import React from 'react'
 
-
 const IconMapping: Record<string, string> = {
-    REACT: "Zap",
-    NEXTJS: "Lightbulb",
-    EXPRESS: "Database",
-    VUE: "Compass",
-    HONO: "FlameIcon",
-    ANGULAR: "Terminal",
+  REACT: "Zap",
+  NEXTJS: "Lightbulb",
+  EXPRESS: "Database",
+  VUE: "Compass",
+  HONO: "FlameIcon",
+  ANGULAR: "Terminal",
 }
 
+const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+  const playgroundData = await getAllPlayground()
 
+  const formattedPlaygroundData = playgroundData?.map((item) => ({
+    id: item.id,
+    name: item.title,
+    icon: IconMapping[item.template],
+    starred: item.StarMark?.[0]?.isMarked || false,
+  }))
 
-const DashbordLayout = async ({ children }: { children: React.ReactNode }) => {
-
-    const playgroundData = await getAllPlayground()
-    console.log("playground data from dashboard laout ", playgroundData)
-    const formattedPlaygroundData = playgroundData?.map((item) => ({
-        id: item.id,
-        name: item.title,
-        icon: IconMapping[item.template],
-        starred: item.StarMark?.[0]?.isMarked || false
-    }))
-    console.log("Formatted Playground Data from dashboard Layout ", formattedPlaygroundData)
-
-
-    return (
-        <SidebarProvider>
-            <div className="flex min-h-screen w-full overflow-x-hidden">
-                {/* Pass the formatted data with string icon names */}
-                <DashboardSidebar initialPlaygroundData={formattedPlaygroundData || []} />
-                <main className="flex-1">{children}</main>
-            </div>
-        </SidebarProvider>
-    )
+  return (
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full overflow-x-hidden bg-gray-50 dark:bg-zinc-900 transition-colors duration-500">
+        <DashboardSidebar initialPlaygroundData={formattedPlaygroundData || []} />
+        <main className="flex-1 p-8 md:p-12 lg:p-16 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </SidebarProvider>
+  )
 }
 
-export default DashbordLayout
+export default DashboardLayout

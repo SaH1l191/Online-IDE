@@ -20,9 +20,13 @@ const AddRepo = () => {
           <ArrowDown size={30} className="transition-transform duration-300 group-hover:translate-y-1" />
         </Button>
         <div className="flex flex-col">
-          <h1 className="text-xl font-bold text-[#e93f3f]">Open Github Repository</h1>
-          <p className="text-sm text-muted-foreground max-w-[220px]">Work with your repositories in our editor</p>
-        </div>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">
+            Open Github Repository
+          </h1>
+
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-[220px]">
+            Work with your repositories in our editor
+          </p></div>
       </div>
 
       <div className="relative overflow-hidden">
