@@ -195,7 +195,7 @@ export const useFileExplorer = create<FileExplorerState>()(
           state.templateData = updatedData
           state.openFiles = updatedFiles
           if (activeFileId && FileSystemHelper.isPathMatch(activeFileId, oldPath)) {
-            state.activeFileId = newPath.split('/').pop()
+            state.activeFileId = newPath.split('/').pop() ?? null
           }
         })
         
