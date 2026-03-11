@@ -1,7 +1,5 @@
 "use client";
-
-import React, { useRef, useCallback, useEffect } from "react";
-import { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { AlertCircle, FolderOpen } from "lucide-react";
@@ -13,309 +11,120 @@ import { useWebContainer } from "@/features/webContainers/hooks/useWebContainer"
 import { TemplateFile, TemplateFolder } from "@/features/playground/types";
 import { findFilePath } from "@/features/playground/lib/index";
 import { PlaygroundLayout } from "@/features/playground/components/PlaygroundLayout";
-// import WebContainerPreview from "@/features/webContainers/components/WebContainerPreview";
+import WebContainerPreview from "@/features/webContainers/components/WebContainerPreview";
 
 const MainPlaygroundPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-
-  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(true);
 
   const { playgroundData, templateData, isLoading, error, saveTemplateData } = usePlayground(id);
+
   const {
-    activeFileId,
-    closeAllFiles,
-    openFile,
-    closeFile,
-    updateFileContent,
-    updateOpenFile,
-    createFile,
-    createFolder,
-    deleteItem,
-    renameItem,
-    openFiles,
-    templateData: fileExplorerTemplateData,
-    setTemplateData,
-    setActiveFile,
-    setPlaygroundId,
+    activeFileId, openFiles,
+    templateData: explorerTemplateData,
+    setTemplateData, setPlaygroundId, setActiveFile,
+    openFile, closeFile, closeAllFiles,
+    updateFileContent, updateOpenFile,
+    createFile, createFolder, deleteItem, renameItem,
   } = useFileExplorer();
 
-  // Use file explorer's template data for the UI
-  const currentTemplateData = fileExplorerTemplateData || templateData;
+  // explorerTemplateData is the live copy (edits applied); templateData is the DB copy.
+  // Use the live copy for rendering, but fall back to DB copy on first load.
+  const currentTemplateData = explorerTemplateData ?? templateData;
 
-  const {
-    serverUrl,
-    isLoading: containerLoading,
-    error: containerError,
-    instance,
-    writeFileSync,
-  } = useWebContainer({ templateData: currentTemplateData! });
-  console.log("webcontainer details ", {serverUrl,isLoading: containerLoading,error: containerError,instance,writeFileSync});
+  // FIX: pass currentTemplateData (not templateData) so the container gets data immediately
+  // after the explorer hydrates it — this is what was preventing auto-boot.
+  const { isLoading: containerLoading, error: containerError, instance, writeFileSync } =
+    useWebContainer();
+    // useWebContainer({ templateData: currentTemplateData! });
+    
+    //set template data + playground id when they load
+  useEffect(() => { setPlaygroundId(id); }, [id]);
+  useEffect(() => { 
+    if (templateData && !openFiles.length) setTemplateData(templateData);
+  }, [templateData]);
 
-  const lastSyncedContent = useRef<Map<string, string>>(new Map());
+  const handleSave = useCallback(async (fileId?: string) => {
+    const targetId = fileId ?? activeFileId;
+    if (!targetId) return;
 
-  useEffect(() => {
-    setPlaygroundId(id);
-  }, [id, setPlaygroundId]);
+    const file = openFiles.find(f => f.id === targetId);
+    const latestTemplate = useFileExplorer.getState().templateData;
+    if (!file || !latestTemplate) return;
 
-  useEffect(() => {
-    if (templateData && !openFiles.length) {
-      setTemplateData(templateData);
-    }
-  }, [templateData, setTemplateData, openFiles.length]);
-
-  const wrappedHandleAddFile = useCallback(
-    (newFile: TemplateFile, parentPath: string) => {
-      return createFile(parentPath, newFile, writeFileSync, instance);
-    },
-    [createFile, writeFileSync, instance]
-  );
-
-  const wrappedHandleAddFolder = useCallback(
-    (newFolder: TemplateFolder, parentPath: string) => {
-      return createFolder(parentPath, newFolder, writeFileSync, instance);
-    },
-    [createFolder, writeFileSync, instance]
-  );
-
-  const wrappedHandleDeleteFile = useCallback(
-    (file: TemplateFile, parentPath: string) => {
-      const filePath = parentPath
-        ? `${parentPath}/${file.filename}.${file.fileExtension}`
-        : `${file.filename}.${file.fileExtension}`;
-      return deleteItem(filePath);
-    },
-    [deleteItem]
-  );
-
-  const wrappedHandleDeleteFolder = useCallback(
-    (folder: TemplateFolder, parentPath: string) => {
-      const folderPath = parentPath
-        ? `${parentPath}/${folder.folderName}`
-        : folder.folderName;
-      return deleteItem(folderPath);
-    },
-    [deleteItem]
-  );
-
-  const wrappedHandleRenameFile = useCallback(
-    (
-      file: TemplateFile,
-      newFilename: string,
-      newExtension: string,
-      parentPath: string
-    ) => {
-      const oldPath = parentPath
-        ? `${parentPath}/${file.filename}.${file.fileExtension}`
-        : `${file.filename}.${file.fileExtension}`;
-      const newPath = parentPath
-        ? `${parentPath}/${newFilename}.${newExtension}`
-        : `${newFilename}.${newExtension}`;
-      return renameItem(oldPath, newPath);
-    },
-    [renameItem]
-  );
-
-  const wrappedHandleRenameFolder = useCallback(
-    (folder: TemplateFolder, newFolderName: string, parentPath: string) => {
-      const oldPath = parentPath
-        ? `${parentPath}/${folder.folderName}`
-        : folder.folderName;
-      const newPath = parentPath
-        ? `${parentPath}/${newFolderName}`
-        : newFolderName;
-      return renameItem(oldPath, newPath);
-    },
-    [renameItem]
-  );
-
-  const activeFile = openFiles.find((file) => file.id === activeFileId);
-  const hasUnsavedChanges = openFiles.some((file) => file.hasUnsavedChanges);
-
-  // calls openFile(file)
-  const handleFileSelect = (file: TemplateFile) => {
-    openFile(file);
-  };
-
-  const handleSave = useCallback(
-    async (fileId?: string) => {
-      const targetFileId = fileId || activeFileId;
-      if (!targetFileId) return;
-
-      const fileToSave = openFiles.find((f) => f.id === targetFileId);
-      if (!fileToSave) return;
-
-      const latestTemplateData = useFileExplorer.getState().templateData;
-      if (!latestTemplateData) return;
-
-      try {
-        const filePath = findFilePath(fileToSave, latestTemplateData);
-        if (!filePath) {
-          toast.error(
-            `Could not find path for file: ${fileToSave.filename}.${fileToSave.fileExtension}`
-          );
-          return;
-        }
-
-        // Update file content in template data (clone for immutability)
-        const updatedTemplateData = JSON.parse(
-          JSON.stringify(latestTemplateData)
-        );
-        const updateFileContentInTemplate = (items: any[]): any[] =>
-          items.map((item: any) => {
-            if ("folderName" in item) {
-              return { ...item, items: updateFileContentInTemplate(item.items) };
-            } else if (
-              item.filename === fileToSave.filename &&
-              item.fileExtension === fileToSave.fileExtension
-            ) {
-              return { ...item, content: fileToSave.content };
-            }
-            return item;
-          });
-        updatedTemplateData.items = updateFileContentInTemplate(
-          updatedTemplateData.items
-        );
-
-        // Sync with WebContainer
-        if (writeFileSync) {
-          await writeFileSync(filePath, fileToSave.content);
-          lastSyncedContent.current.set(fileToSave.id, fileToSave.content);
-          if (instance && instance.fs) {
-            await instance.fs.writeFile(filePath, fileToSave.content);
-          }
-        }
-
-        // Use saveTemplateData to persist changes
-        await saveTemplateData(updatedTemplateData);
-
-        // Update open files using the new method
-        updateOpenFile(targetFileId, {
-          content: fileToSave.content,
-          originalContent: fileToSave.content,
-          hasUnsavedChanges: false,
-        });
-
-        toast.success(
-          `Saved ${fileToSave.filename}.${fileToSave.fileExtension}`
-        );
-      } catch (error) {
-        console.error("Error saving file:", error);
-        toast.error(
-          `Failed to save ${fileToSave.filename}.${fileToSave.fileExtension}`
-        );
-        throw error;
-      }
-    },
-    [
-      activeFileId,
-      openFiles,
-      writeFileSync,
-      instance,
-      saveTemplateData,
-      setTemplateData,
-    ]
-  );
-
-  const handleSaveAll = async () => {
-    const unsavedFiles = openFiles.filter((f) => f.hasUnsavedChanges);
-
-    if (unsavedFiles.length === 0) {
-      toast.info("No unsaved changes");
+    const filePath = findFilePath(file, latestTemplate);
+    if (!filePath) {
+      toast.error(`Could not find path for: ${file.filename}.${file.fileExtension}`);
       return;
     }
 
     try {
-      await Promise.all(unsavedFiles.map((f) => handleSave(f.id)));
-      toast.success(`Saved ${unsavedFiles.length} file(s)`);
-    } catch (error) {
-      toast.error("Failed to save some files");
-    }
-  };
+      const updatedTemplate = patchFileContent(latestTemplate, file);
+      await saveTemplateData(updatedTemplate);
 
-    //key stroke useEffect Register 
+      //  currentTemplateData changes-) → WebContainerPreview's useEffect([templateData]) fires → syncs to container
+      setTemplateData(updatedTemplate);
+
+      updateOpenFile(targetId, {
+        content: file.content,
+        originalContent: file.content,
+        hasUnsavedChanges: false,
+      });
+
+      toast.success(`Saved ${file.filename}.${file.fileExtension}`);
+    } catch (err) {
+      toast.error(`Failed to save ${file.filename}.${file.fileExtension}`);
+    }
+  }, [activeFileId, openFiles, saveTemplateData, setTemplateData]);
+
+  const handleSaveAll = useCallback(async () => {
+    const unsaved = openFiles.filter(f => f.hasUnsavedChanges);
+    if (!unsaved.length) { toast.info("No unsaved changes"); return; }
+    await Promise.all(unsaved.map(f => handleSave(f.id)));
+    toast.success(`Saved ${unsaved.length} file(s)`);
+  }, [openFiles, handleSave]);
+
+  // Ctrl+S shortcut
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === "s") {
-        e.preventDefault();
-        handleSave();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    const onKey = (e: KeyboardEvent) => { if (e.ctrlKey && e.key === "s") { e.preventDefault(); handleSave(); } };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [handleSave]);
 
-  // Error state
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4">
-        <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
-        <h2 className="text-xl font-semibold text-red-600 mb-2">
-          Something went wrong
-        </h2>
-        <p className="text-gray-600 mb-4">{error}</p>
-        <Button onClick={() => window.location.reload()} variant="destructive">
-          Try Again
-        </Button>
-      </div>
-    );
-  }
+  const buildPath = (parentPath: string, name: string) => parentPath ? `${parentPath}/${name}` : name;
+  const fileItemPath = (f: TemplateFile, parent: string) => buildPath(parent, `${f.filename}.${f.fileExtension}`);
+  const folderPath = (fo: TemplateFolder, parent: string) => buildPath(parent, fo.folderName);
 
-  // Loading state
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4">
-        <div className="w-full max-w-md p-6 rounded-lg shadow-sm border">
-          <h2 className="text-xl font-semibold mb-6 text-center">
-            Loading Playground
-          </h2>
-          <div className="mb-8">
-            <LoadingStep
-              currentStep={1}
-              step={1}
-              label="Loading playground data"
-            />
-            <LoadingStep
-              currentStep={2}
-              step={2}
-              label="Setting up environment"
-            />
-            <LoadingStep currentStep={3} step={3} label="Ready to code" />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  //Something went wrong.......
+  if (error) return (
+    <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4">
+      <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
+      <h2 className="text-xl font-semibold text-red-600 mb-2">Something went wrong</h2>
+      <p className="text-gray-600 mb-4">{error}</p>
+      <Button onClick={() => window.location.reload()} variant="destructive">Try Again</Button>
+    </div>
+  );
 
-  // No template data
-  if (!currentTemplateData) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4">
-        <FolderOpen className="h-12 w-12 text-amber-500 mb-4" />
-        <h2 className="text-xl font-semibold text-amber-600 mb-2">
-          No template data available
-        </h2>
-        <Button onClick={() => window.location.reload()} variant="outline">
-          Reload Template
-        </Button>
+  //setting up environment.......
+  if (isLoading) return (
+    <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4">
+      <div className="w-full max-w-md p-6 rounded-lg shadow-sm border">
+        <h2 className="text-xl font-semibold mb-6 text-center">Loading Playground</h2>
+        <LoadingStep currentStep={1} step={1} label="Loading playground data" />
+        <LoadingStep currentStep={2} step={2} label="Setting up environment" />
+        <LoadingStep currentStep={3} step={3} label="Ready to code" />
       </div>
-    );
-  }
+    </div>
+  );
 
-  const previewPanel = 
-  // isPreviewVisible ?
-  false 
-  // ? (
-    // <WebContainerPreview
-    //   templateData={templateData}
-    //   instance={instance}
-    //   writeFileSync={writeFileSync}
-    //   isLoading={containerLoading}
-    //   error={containerError}
-    //   serverUrl={serverUrl!}
-    //   forceResetup={false}
-    // />
-  // ) : 
-  null;
+  // No template data (shouldn't happen, but just in case).......
+  if (!currentTemplateData) return (
+    <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4">
+      <FolderOpen className="h-12 w-12 text-amber-500 mb-4" />
+      <h2 className="text-xl font-semibold text-amber-600 mb-2">No template data available</h2>
+      <Button onClick={() => window.location.reload()} variant="outline">Reload Template</Button>
+    </div>
+  );
 
   return (
     <PlaygroundLayout
@@ -323,25 +132,48 @@ const MainPlaygroundPage: React.FC = () => {
       playgroundData={playgroundData}
       openFiles={openFiles}
       activeFileId={activeFileId}
-      hasUnsavedChanges={hasUnsavedChanges}
+      hasUnsavedChanges={openFiles.some(f => f.hasUnsavedChanges)}
       isPreviewVisible={isPreviewVisible}
-      onFileSelect={handleFileSelect}
-      onAddFile={wrappedHandleAddFile}
-      onAddFolder={wrappedHandleAddFolder}
-      onDeleteFile={wrappedHandleDeleteFile}
-      onDeleteFolder={wrappedHandleDeleteFolder}
-      onRenameFile={wrappedHandleRenameFile}
-      onRenameFolder={wrappedHandleRenameFolder}
+      onFileSelect={openFile}
+      onAddFile={(file, parent) => createFile(fileItemPath(file, parent), file, writeFileSync, instance)}
+      onAddFolder={(folder, parent) => createFolder(folderPath(folder, parent), folder, instance)}
+      onDeleteFile={(file, parent) => deleteItem(fileItemPath(file, parent))}
+      onDeleteFolder={(folder, parent) => deleteItem(folderPath(folder, parent))}
+      onRenameFile={(file, newName, newExt, parent) =>
+        renameItem(fileItemPath(file, parent), buildPath(parent, `${newName}.${newExt}`))}
+      onRenameFolder={(folder, newName, parent) =>
+        renameItem(folderPath(folder, parent), buildPath(parent, newName))}
       onSave={handleSave}
       onSaveAll={handleSaveAll}
       onCloseAllFiles={closeAllFiles}
       onFileClose={closeFile}
       onActiveFileChange={setActiveFile}
       onContentChange={updateFileContent}
-      onPreviewToggle={() => setIsPreviewVisible(!isPreviewVisible)}
-      previewPanel={previewPanel}
+      onPreviewToggle={() => setIsPreviewVisible(v => !v)} 
+      previewPanel={isPreviewVisible ? (
+        <WebContainerPreview
+          templateData={currentTemplateData}
+          isLoading={containerLoading}
+          error={containerError}
+          instance={instance}
+          writeFileSync={writeFileSync}
+          forceResetup={false}
+        />
+      ) : null}
     />
   );
 };
 
 export default MainPlaygroundPage;
+
+function patchFileContent(template: TemplateFolder, file: { filename: string; fileExtension: string; content: string }): TemplateFolder {
+  const patch = (items: any[]): any[] =>
+    items.map(item =>
+      "folderName" in item
+        ? { ...item, items: patch(item.items) }
+        : item.filename === file.filename && item.fileExtension === file.fileExtension
+          ? { ...item, content: file.content }
+          : item
+    );
+  return { ...template, items: patch(template.items) };
+}

@@ -10,14 +10,8 @@ export function findFilePath(
       const res = findFilePath(file, item, [...pathSoFar, item.folderName]);
       if (res) return res;
     } else {
-      if (
-        item.filename === file.filename &&
-        item.fileExtension === file.fileExtension
-      ) {
-        return [
-          ...pathSoFar,
-          item.filename + (item.fileExtension ? "." + item.fileExtension : ""),
-        ].join("/");
+      if (item.filename === file.filename && item.fileExtension === file.fileExtension) {
+        return [...pathSoFar, item.filename + (item.fileExtension ? "." + item.fileExtension : ""),].join("/");
       }
     }
   }
@@ -62,7 +56,7 @@ export async function longPoll<T>(
   }
 }
 
-  // Helper function to generate unique file ID
+// Helper function to generate unique file ID
 /**
  * Generates a unique file ID based on file location in folder structure
  * @param file The template file
@@ -75,7 +69,7 @@ export async function longPoll<T>(
 export const generateFileId = (file: TemplateFile, rootFolder: TemplateFolder): string => {
   // Find the file's path in the folder structure
   const path = findFilePath(file, rootFolder)?.replace(/^\/+/, '') || '';
-  
+
   // Handle empty/undefined file extension
   const extension = file.fileExtension?.trim();
   const extensionSuffix = extension ? `.${extension}` : '';

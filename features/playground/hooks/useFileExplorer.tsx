@@ -96,6 +96,7 @@ export const useFileExplorer = create<FileExplorerState>()(
     // logic : 
     // create file id -> update templateData state , open created File , save changes in db, then reflect in webcontainer
     createFile: async (path, file, writeFileSync, instance) => {
+      console.log("createFile called with:", { path, file, hasWriteFileSync: !!writeFileSync, hasInstance: !!instance });
       const { templateData, playgroundId } = get()
       if (!templateData) return
       

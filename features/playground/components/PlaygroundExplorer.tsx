@@ -1,8 +1,6 @@
 "use client"
-
 import * as React from "react"
 import { ChevronRight, File, Folder, Plus, FilePlus, FolderPlus, MoreHorizontal, Trash2, Edit3 } from "lucide-react"
-
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import {
     Sidebar,
@@ -24,32 +22,13 @@ import {
     DropdownMenuTrigger,
     DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog"
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import RenameFolderDialog from "./dialogs/rename-folder-dialog"
 import NewFolderDialog from "./dialogs/new-folder-dialog"
 import NewFileDialog from "./dialogs/new-file-dialog"
 import RenameFileDialog from "./dialogs/rename-file-dialog"
 import { DeleteDialog } from "./dialogs/delete-dialog"
+import { useState } from "react"
 
 // Using the provided interfaces
 interface TemplateFile {
@@ -95,19 +74,13 @@ export function TemplateFileTree({
     onRenameFolder,
 }: TemplateFileTreeProps) {
 
-    console.log("data inside templatefile tree",data )
-
+    console.log("TemplateFileTree data:", data)
     const isRootFolder = data && typeof data === "object" && "folderName" in data
-    const [isNewFileDialogOpen, setIsNewFileDialogOpen] = React.useState(false)
-    const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = React.useState(false)
+    const [isNewFileDialogOpen, setIsNewFileDialogOpen] = useState(false)
+    const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = useState(false)
 
-    const handleAddRootFile = () => {
-        setIsNewFileDialogOpen(true)
-    }
-
-    const handleAddRootFolder = () => {
-        setIsNewFolderDialogOpen(true)
-    }
+    const handleAddRootFile = () => {setIsNewFileDialogOpen(true)}
+    const handleAddRootFolder = () => {setIsNewFolderDialogOpen(true)}
 
     const handleCreateFile = (filename: string, extension: string) => {
         if (onAddFile && isRootFolder) {
@@ -118,8 +91,7 @@ export function TemplateFileTree({
             }
             onAddFile(newFile, "")
         }
-        setIsNewFileDialogOpen(false)
-        console.log("handleCreateFile has created file")
+        setIsNewFileDialogOpen(false) 
     }
 
     const handleCreateFolder = (folderName: string) => {
@@ -210,6 +182,7 @@ export function TemplateFileTree({
     )
 }
 
+// templateNode : TemplateFile |  TemplateFolder[] , each item have to be passed all the fnc 
 interface TemplateNodeProps {
     item: TemplateItem
     onFileSelect?: (file: TemplateFile) => void
@@ -330,6 +303,7 @@ function TemplateNode({
         const currentPath = path ? `${path}/${folderName}` : folderName
 
         const handleAddFile = () => {
+            console.log("handleAddFile for folder:", currentPath)
             setIsNewFileDialogOpen(true)
         }
 
