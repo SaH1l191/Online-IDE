@@ -1,7 +1,9 @@
 # ⚡️ IntelliCode – Browser-Based AI Code Editor
 
-IntelliCode is a **high-performance, AI-powered web IDE** that runs entirely in the browser. Leveraging **Next.js App Router**, **WebContainers**, **Monaco Editor**, and **local LLMs via Ollama**, it provides live code execution, an AI assistant, and support for multiple frameworks — all within a sleek, developer-friendly interface.
 ![alt text](image.png)
+
+IntelliCode is a **high-performance, AI-powered web IDE** that runs entirely in the browser. Leveraging **Next.js App Router**, **WebContainers**, **Monaco Editor**, and **local LLMs via Ollama**, it provides live code execution, an AI assistant, and support for multiple frameworks — all within a sleek, developer-friendly interface.
+
 ---
 
 ## 🚀 Key Features
