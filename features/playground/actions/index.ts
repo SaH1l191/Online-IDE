@@ -80,6 +80,7 @@ export const getAllPlayground = async () => {
         console.log("getallplayground from primsa", playgrounds)
         return playgrounds
     } catch (err) {
+        //need to return error to the client side to show error message in UI
         console.log(err)
     }
 }

@@ -177,3 +177,23 @@ function patchFileContent(template: TemplateFolder, file: { filename: string; fi
     );
   return { ...template, items: patch(template.items) };
 }
+
+// app/playground/[id]/page.tsx (orchestrator - 179 lines)
+//   ├── usePlayground()      → fetches data from DB
+//   ├── useFileExplorer()    → Zustand store (214 lines)
+//   ├── useWebContainer()    → boot + mount + install + start
+//   │
+//   ├── PlaygroundLayout     → passes 18 props
+//   │   ├── PlaygroundSidebar
+//   │   │   ├── PlaygroundExplorer → recursive tree (458 lines)
+//   │   │   └── File operations
+//   │   ├── PlaygroundEditorPanel
+//   │   │   ├── PlaygroundEditor → Monaco + AI autocomplete
+//   │   │   └── Tabs
+//   │   └── WebContainerPreview
+//   │       ├── Terminal → xterm.js
+//   │       └── Preview iframe
+//   │
+//   └── Services
+//       ├── FileSystemService → saves to DB + syncs to container
+//       └── FileSystemHelper  → tree manipulation utilities

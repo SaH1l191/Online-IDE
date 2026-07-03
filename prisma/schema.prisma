@@ -40,6 +40,7 @@ enum UserRole {
 }
 
 model User {
+  // should remove this id , mongo does internally anways 
   id    String  @id @default(cuid()) @map("_id")
   name  String?
   email String  @unique
@@ -64,7 +65,14 @@ enum Templayes {
 }
 
 //each playground can be star marked by many users  
+//visibility of playgground : public,private 
+//searchabvilitu of playgor5und : tags 
+// serachable users using usernames 
+//collbarotor : owern ,editor , commentor // optional feature 
 model Playground {
+  ///indexs on userID as querid a lot on this field  
+  // index playgroundId
+  // index userId,sortat desc
   id            String         @id @default(cuid()) @map("_id")
   title         String
   description   String?
@@ -73,10 +81,28 @@ model Playground {
   StarMark      StarMark[]
   userId        String
   user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  //files File[]
+  //collaborators Collaborator[]
+  // slug          String?      @unique
+  // visibility    Visibility   @default(PRIVATE)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+//
+// model File {
+//   id           String     @id @default(cuid())
+//   path         String
+//   content      String
+//   playgroundId String
+//   playground   Playground @relation(fields: [playgroundId], references: [id], onDelete: Cascade)
+//   createdAt    DateTime   @default(now())
+//   updatedAt    DateTime   @updatedAt
+
+//   @@unique([playgroundId, path])
+//   @@index([playgroundId])
+// }
 
 //playground can have many template Files 
 model TemplateFile {

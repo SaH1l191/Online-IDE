@@ -68,6 +68,12 @@ interface EditProjectData {
   description: string;
 }
 
+
+// optimize the projectable by moving the project state to its projectctrow component and moving state closest
+//usecallback for all project row actions 
+//usememo for caching thee stared projects from filter,search and sort opertaions
+//react.meemo for each project row to avoid re-rendering the entire table when one project is updated, deleted, or duplicated. 
+
 export default function ProjectTable({
   projects, 
   onUpdateProject,
