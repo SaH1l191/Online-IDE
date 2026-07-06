@@ -184,10 +184,10 @@ export default function ProjectTable({
 
   return (
     <>
-      <div className="border rounded-lg overflow-hidden  ">
+      <div className="border border-border/50 rounded-xl overflow-hidden glass">
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="border-border/50">
               <TableHead>Project</TableHead>
               <TableHead>Template</TableHead>
               <TableHead>Created</TableHead>
@@ -198,16 +198,16 @@ export default function ProjectTable({
 
           <TableBody>
             {projects.map((project) => (
-              <TableRow key={project.id}>
+              <TableRow key={project.id} className="border-border/50 hover:bg-muted/50 transition-colors">
                 <TableCell className="font-medium">
                   <div className="flex flex-col">
                     <Link
                       href={`/playground/${project.id}`}
                       className="hover:underline"
                     >
-                      <span className="font-semibold">{project.title}</span>
+                      <span className="font-semibold text-foreground">{project.title}</span>
                     </Link>
-                    <span className="text-sm text-gray-500 line-clamp-1">
+                    <span className="text-sm text-muted-foreground line-clamp-1">
                       {project.description}
                     </span>
                   </div>
@@ -215,7 +215,7 @@ export default function ProjectTable({
                 <TableCell>
                   <Badge
                     variant="outline"
-                    className="bg-[#E93F3F15] text-[#E93F3F] border-[#E93F3F]"
+                    className="bg-primary/10 text-primary border-primary/20 rounded-full"
                   >
                     {project.template}
                   </Badge>
@@ -247,7 +247,7 @@ export default function ProjectTable({
                         <span className="sr-only">Open menu</span>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuContent align="end" className="w-48 glass">
                       <DropdownMenuItem asChild>
                         <Button
                           variant="ghost"
@@ -256,11 +256,10 @@ export default function ProjectTable({
                           onClick={() => handleMarkasFavorite(project)}
                         >
                           <Heart
-                            className="h-4 w-4 mr-2"
-                            fill={favoriteState[project.id] ? "red" : "none"}
-                            stroke={favoriteState[project.id] ? "red" : "currentColor"}
+                            className={`h-4 w-4 mr-2 ${favoriteState[project.id] ? "text-primary" : "text-muted-foreground"}`}
+                            fill={favoriteState[project.id] ? "currentColor" : "none"}
                           />
-                          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                          <span className="text-sm font-medium text-foreground">
                             {favoriteState[project.id] ? "Favorited" : "Favorite"}
                           </span>
                         </Button>

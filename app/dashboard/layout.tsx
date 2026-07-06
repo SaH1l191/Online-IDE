@@ -24,7 +24,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full overflow-x-hidden bg-gray-50 dark:bg-zinc-900 transition-colors duration-500">
+      <div className="flex min-h-screen w-full overflow-x-hidden bg-background transition-colors duration-500">
         <DashboardSidebar initialPlaygroundData={formattedPlaygroundData || []} />
         <main className="flex-1 p-8 md:p-12 lg:p-16 overflow-auto">
           {children}

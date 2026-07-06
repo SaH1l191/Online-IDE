@@ -25,14 +25,14 @@ const UserButton = () => {
         <div className={cn("relative rounded-full")}>
           <Avatar>
             <AvatarImage src={user?.image!} alt={user?.name!} />
-            <AvatarFallback className="bg-red-500">
-              <User className="text-white" />
+            <AvatarFallback className="bg-primary text-primary-foreground">
+              <User className="text-primary-foreground" />
             </AvatarFallback>
           </Avatar>
         </div>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="mr-4">
+      <DropdownMenuContent className="mr-4 glass">
         <DropdownMenuItem>
           <span>
             {user?.email}
