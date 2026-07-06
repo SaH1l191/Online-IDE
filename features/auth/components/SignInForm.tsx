@@ -12,7 +12,7 @@ import { Chrome, Github } from "lucide-react";
 import { signIn } from "@/auth";
 
 
-const SignInFormClient = () => {
+const SignInForm = () => {
     return (
         <Card className="w-full max-w-md rounded-xl s  !shadow-none  !border-none">
             <CardHeader className="space-y-3 py-6">
@@ -74,4 +74,4 @@ const SignInFormClient = () => {
     );
 };
 
-export default SignInFormClient;
+export default SignInForm;

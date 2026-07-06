@@ -1,14 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button"
 import { createPlayground } from "@/features/playground/actions";
-import TemplateSelectionModal from "@/features/playground/components/TemplateModal";
+import TemplateSelectionModal from "@/features/playground/components/TemplateSelectionModal";
 import { Plus } from 'lucide-react'
 import Image from "next/image"
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 import { toast } from "sonner";
 
-const AddNewButton = () => {
+const AddNewProject = () => {
 
 
   const router = useRouter()
@@ -85,4 +85,4 @@ const AddNewButton = () => {
   )
 }
 
-export default AddNewButton
+export default AddNewProject

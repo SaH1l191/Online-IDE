@@ -1,5 +1,5 @@
 import { SidebarProvider } from '@/components/ui/sidebar'
-import { DashboardSidebar } from '@/features/dashboard/components/DashboardSideBar'
+import { DashboardSidebar } from '@/features/dashboard/components/DashboardSidebar'
 import { getAllPlayground } from '@/features/playground/actions'
 import React from 'react'
 

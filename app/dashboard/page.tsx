@@ -1,4 +1,4 @@
-import AddNewButton from "@/features/dashboard/components/AddNewProject";
+import AddNewProject from "@/features/dashboard/components/AddNewProject";
 import AddRepo from "@/features/dashboard/components/AddRepo";
 import ProjectTable from "@/features/dashboard/components/ProjectTable";
 import { deletePlayGroundById, duplicatePlaygroundById, editPlayGroundById, toggleStarMarked, getAllPlayground } from "@/features/playground/actions";
@@ -17,7 +17,7 @@ const DashboardMainPage = async () => {
   return (
     <div className="flex flex-col justify-start items-center h-fit mx-auto max-w-7xl px-4 py-5">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-fit">
-        <AddNewButton />
+        <AddNewProject />
         <AddRepo />
       </div>
       <div className="mt-10 flex flex-col justify-center items-center w-full">

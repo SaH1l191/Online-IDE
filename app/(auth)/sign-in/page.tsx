@@ -1,6 +1,6 @@
 import Image from 'next/image'
  
-import SignInFormClient from '../../../../features/auth/components/SignInComponent'
+import SignInForm from '@/features/auth/components/SignInForm'
 
 
 const SignInPage = () => {
@@ -10,7 +10,7 @@ const SignInPage = () => {
         <div className="flex flex-col gap-4 p-6 md:p-10">
           <div className="flex flex-1 items-center justify-center  z-10">
             <div className="w-full max-w-3/4 flex px-5">
-              <SignInFormClient />
+              <SignInForm />
             </div>
           </div>
         </div>

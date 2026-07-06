@@ -1,128 +1,136 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Zap, Rocket, Shield } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { TypeAnimation } from "react-type-animation";
+
+const codeLines = [
+  { text: 'const greet = (name: string) => {', delay: 0 },
+  { text: '  return `Hello, ${name}!`;', delay: 0.4 },
+  { text: '};', delay: 0.8 },
+  { text: '', delay: 1.0 },
+  { text: 'console.log(greet("Developer"));', delay: 1.2 },
+  { text: '', delay: 1.6 },
+  { text: '// AI: Convert to template literal', delay: 1.8, ai: true },
+  { text: '// AI: Add TypeScript generics', delay: 2.2, ai: true },
+];
+
+const stats = [
+  { icon: Zap, label: "10K+ Developers", color: "text-warning" },
+  { icon: Rocket, label: "50K+ Snippets", color: "text-accent" },
+  { icon: Shield, label: "Secure & Private", color: "text-green-400" },
+];
 
 export default function Home() {
   return (
-    <div className="relative z-20 w-full overflow-hidden">
-      <div className="absolute top-[-200px] left-[-200px] w-[500px] h-[500px] bg-pink-500 rounded-full blur-[120px] opacity-30" />
-      <div className="absolute bottom-[-200px] right-[-200px] w-[500px] h-[500px] bg-purple-500 rounded-full blur-[120px] opacity-30" />
-      <section className="max-w-7xl mx-auto px-6 pt-32 pb-24 grid lg:grid-cols-2 gap-16 items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-8  pt-1 "
-        >
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-            Build Code with
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500">
-              Intelligence
-            </span>
-          </h1>
-          <div className="text-lg text-zinc-600 dark:text-zinc-400 h-[60px]">
-            <TypeAnimation
-              sequence={[
-                "AI powered code completion",
-                2000,
-                "Debug smarter not harder",
-                2000,
-                "Optimize code instantly",
-                2000,
-              ]}
-              repeat={Infinity}
-            />
-          </div>
-          <div className="flex gap-4">
-            <Link href="/dashboard">
-              <Button size="lg">
-                Start Coding
-                <ArrowRight className="ml-2 w-4 h-4" />
+    <div className="h-screen flex flex-col overflow-hidden">
+      {/* Hero */}
+      <section className="flex-1 flex items-center max-w-7xl mx-auto px-6 w-full">
+        <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
+          {/* Left — Copy */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-6"
+          >
+            <div className="space-y-2">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                AI-Powered IDE
+              </motion.div>
+            </div>
+
+            <h1 className="text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight">
+              Build Code with{" "}
+              <span className="text-gradient">Intelligence</span>
+            </h1>
+
+            <p className="text-lg text-muted-foreground max-w-md leading-relaxed">
+              AI-powered online IDE that helps you write, debug, and ship
+              faster — right in your browser.
+            </p>
+
+            <div className="flex gap-3 pt-2">
+              <Link href="/dashboard">
+                <Button variant="glow" size="lg">
+                  Start Coding
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
+              <Button variant="outline" size="lg">
+                Live Demo
               </Button>
-            </Link>
-            <Button variant="outline" size="lg">
-              Live Demo
-            </Button>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="relative"
-        >
+            </div>
+          </motion.div>
 
-          <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-purple-500 blur-xl opacity-30" />
+          {/* Right — Code Preview */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="relative"
+          >
+            {/* Glow behind card */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl blur-2xl opacity-60" />
 
-          <div className="relative bg-black rounded-xl border border-zinc-800 p-6 shadow-2xl">
+            <div className="relative bg-card rounded-xl border border-border p-6 shadow-2xl font-mono text-sm leading-relaxed overflow-hidden">
+              {/* Window dots */}
+              <div className="flex gap-1.5 mb-4">
+                <span className="w-3 h-3 rounded-full bg-red-400/80" />
+                <span className="w-3 h-3 rounded-full bg-yellow-400/80" />
+                <span className="w-3 h-3 rounded-full bg-green-400/80" />
+              </div>
 
-            <pre className="text-sm text-green-400 font-mono leading-relaxed">
-              {`function greet(name) {
-  return "Hello " + name;
-}
+              {/* Code lines */}
+              <div className="space-y-1">
+                {codeLines.map((line, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: line.delay, duration: 0.3 }}
+                    className={line.ai ? "text-accent" : "text-green-400"}
+                  >
+                    {line.text || "\u00A0"}
+                  </motion.div>
+                ))}
 
-console.log(greet("Developer"));
-
-AI Suggestion:
-→ convert to template string
-`}
-            </pre>
-
-          </div>
-
-        </motion.div>
-
-      </section>
-
-      {/* FEATURES BENTO GRID */}
-      <section className="max-w-7xl mx-auto px-6 pt-24 pb-12   gap-12 items-center">
-
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-5xl md:text-6xl font-extrabold text-center mb-12 
-                 text-opacity-40
-  bg-clip-text  
-  "
-        >
-          Built for Modern Developers
-        </motion.h2>
-
-        <div className="grid md:grid-cols-3 gap-6">
-
-          <FeatureCard
-            title="AI Code Generation"
-            desc="Generate functions, tests and documentation instantly."
-          />
-
-          <FeatureCard
-            title="Smart Debugging"
-            desc="AI explains errors and fixes them automatically."
-          />
-          <FeatureCard
-            title="Developer Focused"
-            desc="Built by developers for developers."
-          />
-
+                {/* Blinking cursor */}
+                <motion.span
+                  className="inline-block w-2 h-4 bg-primary/80 ml-1"
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ repeat: Infinity, duration: 0.8 }}
+                />
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
-    </div>
-  );
-}
 
-function FeatureCard({ title, desc }: { title: string; desc: string }) {
-  return (
-    <motion.div
-      whileHover={{ y: -6 }}
-      className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:shadow-xl transition"
-    >
-      <h4 className="text-xl font-semibold mb-2">{title}</h4>
-      <p className="text-zinc-500 text-sm">{desc}</p>
-    </motion.div>
+      {/* Bottom Stats */}
+      <div className="pb-8 flex justify-center gap-4">
+        {stats.map((s) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.4 }}
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card/60 glass text-sm"
+          >
+            <s.icon className={`w-4 h-4 ${s.color}`} />
+            <span className="text-muted-foreground font-medium">
+              {s.label}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 }
