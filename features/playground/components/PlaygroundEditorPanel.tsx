@@ -19,6 +19,20 @@ interface PlaygroundEditorPanelProps {
   previewPanel?: React.ReactNode
 }
 
+const fileExtensionColors: Record<string, string> = {
+  tsx: "text-blue-400",
+  ts: "text-blue-300",
+  jsx: "text-cyan-400",
+  js: "text-yellow-400",
+  css: "text-pink-400",
+  html: "text-orange-400",
+  json: "text-green-400",
+  md: "text-gray-400",
+  py: "text-green-300",
+  rs: "text-orange-300",
+  go: "text-cyan-300",
+}
+
 export function PlaygroundEditorPanel({
   openFiles,
   activeFileId,
@@ -32,75 +46,57 @@ export function PlaygroundEditorPanel({
   const activeFile = openFiles.find((f) => f.id === activeFileId)
 
   return (
-    <div className="h-[calc(100vh-4rem)]">
+    <div className="h-[calc(100vh-3rem)]">
       {openFiles.length > 0 ? (
         <div className="h-full flex flex-col">
           {/* File Tabs */}
-          <div className="border-b bg-muted/30">
+          <div className="border-b border-border/50 bg-muted/20">
             <Tabs value={activeFileId || ""} onValueChange={onActiveFileChange}>
-              <div className="flex items-center justify-between px-4 py-2">
-                {/* <TabsList className="h-8 bg-transparent p-0">
-                  {openFiles.map((file) => (
-                    <TabsTrigger
-                      key={file.id}
-                      value={file.id}
-                      className="relative h-8 px-3 data-[state=active]:bg-background data-[state=active]:shadow-sm group"
-                    >
-                      <div className="flex items-center gap-2">
-                        <FileText className="h-3 w-3" />
-                        <span>
-                          {file.filename}.{file.fileExtension}
-                        </span>
-                        {file.hasUnsavedChanges && (
-                          <span className="h-2 w-2 rounded-full bg-orange-500" />
-                        )}
-                        <span
-                          className="ml-2 h-4 w-4 hover:bg-destructive hover:text-destructive-foreground rounded-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            onFileClose(file.id)
-                          }}
-                        >
-                          <X className="h-3 w-3" />
-                        </span>
-                      </div>
-                    </TabsTrigger>
-                  ))}
-                </TabsList> */}
-
-                {/* edit -1  */}
+              <div className="flex items-center justify-between px-2 py-1">
                 <ScrollArea className="w-full">
-                  <TabsList className="h-8 bg-transparent p-0 flex gap-1">
-                    {openFiles.map((file) => (
-                      <TabsTrigger
-                        key={file.id}
-                        value={file.id}
-                        className="relative h-8 px-3 data-[state=active]:bg-background data-[state=active]:shadow-sm group"
-                      >
-                        <div className="flex items-center gap-2">
-                          <FileText className="h-3 w-3" />
-                          <span>
-                            {file.filename}.{file.fileExtension}
-                          </span>
-                          {file.hasUnsavedChanges && (
-                            <span className="h-2 w-2 rounded-full bg-orange-500" />
+                  <TabsList className="h-8 bg-transparent p-0 flex gap-0.5">
+                    {openFiles.map((file) => {
+                      const ext = file.fileExtension.toLowerCase()
+                      const colorClass = fileExtensionColors[ext] || "text-muted-foreground"
+                      const isActive = file.id === activeFileId
+                      return (
+                        <TabsTrigger
+                          key={file.id}
+                          value={file.id}
+                          className={`relative h-7 px-3 rounded-md group transition-all duration-150
+                            ${isActive
+                              ? "bg-background text-foreground shadow-sm"
+                              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                            }`}
+                        >
+                          <div className="flex items-center gap-1.5">
+                            <FileText className={`h-3 w-3 ${isActive ? colorClass : ""}`} />
+                            <span className="text-xs font-medium">
+                              {file.filename}.{file.fileExtension}
+                            </span>
+                            {file.hasUnsavedChanges && (
+                              <span className="h-1.5 w-1.5 rounded-full bg-warning" />
+                            )}
+                            <span
+                              className="ml-1 h-4 w-4 rounded-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/20 hover:text-destructive cursor-pointer"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                onFileClose(file.id)
+                              }}
+                            >
+                              <X className="h-3 w-3" />
+                            </span>
+                          </div>
+                          {isActive && (
+                            <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-gradient-to-r from-primary to-accent rounded-full" />
                           )}
-                          <span
-                            className="ml-2 h-4 w-4 hover:bg-destructive hover:text-destructive-foreground rounded-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              onFileClose(file.id)
-                            }}
-                          >
-                            <X className="h-3 w-3" />
-                          </span>
-                        </div>
-                      </TabsTrigger>
-                    ))}
+                        </TabsTrigger>
+                      )
+                    })}
                   </TabsList>
                   <ScrollBar
                     orientation="horizontal"
-                    style={{ height: "8px" }}
+                    style={{ height: "6px" }}
                   />
                 </ScrollArea>
 
@@ -109,7 +105,7 @@ export function PlaygroundEditorPanel({
                     size="sm"
                     variant="ghost"
                     onClick={onCloseAllFiles}
-                    className="h-6 px-2 text-xs"
+                    className="h-6 px-2 text-xs text-muted-foreground hover:text-foreground"
                   >
                     Close All
                   </Button>
@@ -129,14 +125,21 @@ export function PlaygroundEditorPanel({
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center h-full">
-          <FileText className="h-12 w-12 text-muted-foreground mb-4" />
-          <h3 className="text-lg font-medium text-muted-foreground">
-            No file open
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            Select a file from the file explorer to start editing
-          </p>
+        <div className="flex flex-col items-center justify-center h-full gap-4">
+          <div className="relative">
+            <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-full blur-2xl" />
+            <div className="relative bg-muted/50 rounded-2xl p-6">
+              <FileText className="h-12 w-12 text-muted-foreground/50" />
+            </div>
+          </div>
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-muted-foreground">
+              No file open
+            </h3>
+            <p className="text-sm text-muted-foreground/70 mt-1">
+              Select a file from the explorer to start editing
+            </p>
+          </div>
         </div>
       )}
     </div>
